@@ -3,20 +3,30 @@
 
 // Write your JavaScript code.
 function RandomPass() {
-    var request = new XMLHttpRequest(); // 新建XMLHttpRequest对象
-
-    request.onreadystatechange = function () { // 状态发生变化时，函数被回调
-        if (request.readyState === 4) { // 成功完成
-            // 判断响应结果:
+    var request = new XMLHttpRequest(); 
+    request.onreadystatechange = function () { 
+        if (request.readyState === 4) { 
+           
             if (request.status === 200) {
-                // 成功，通过responseText拿到响应的文本:
-                document.getElementById("pass").innerHTML =request.responseText;
+                
+                // xmlDoc = request.responseXML;
+                // x = request.responseXML.documentElement.getElementsByTagName("count");
+                // console.log(x);
+                // // txt = "";
+                // // x = xmlDoc.getElementsByTagName("count");
+                let data = JSON.parse(request.response);
+                let count = document.getElementById("count");
+                count.innerText = data.count;
+                document.getElementById("pass").innerHTML = data.passcode;
+                console.log('response', request.response);
+                console.log('count', data['count']);
+                console.log('innertext', count.innerText);
             } else {
-                // 失败，根据响应码判断失败原因:
+                
                 return fail(request.status);
             }
         } else {
-            // HTTP请求还在继续...
+           
         }
     }
    

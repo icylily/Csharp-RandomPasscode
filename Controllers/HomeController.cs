@@ -26,7 +26,7 @@ namespace RandomPass.Controllers
         public IActionResult Index()
         {
             int? counter = HttpContext.Session.GetInt32("counter");
-            counter = (counter == null) ? 1 : counter;
+            counter = (counter == null) ? 0 : counter;
             counter++;
 
             ViewBag.Count = counter;
@@ -39,16 +39,24 @@ namespace RandomPass.Controllers
         
         [Route("/getpass")]
         [HttpGet]
-        public string GetPAss()
+        public JsonResult GetPAss()
         {
             int? counter = HttpContext.Session.GetInt32("counter");
             counter = (counter == null) ? 1 : counter;
             counter++;
 
-            ViewBag.Count = counter;
+            // ViewBag.Count = counter;
             ViewBag.passcode = RandomString(14);
             HttpContext.Session.SetInt32("counter", (int)counter);
-            return ViewBag.passcode;
+            var AnonObject = new
+            {
+                count = counter,
+                passcode = ViewBag.passcode,
+               
+            };
+
+            return Json(AnonObject);
+            // return ViewBag.passcode;
 
         }
 
